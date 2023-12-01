@@ -37,5 +37,9 @@ fn extract_num(line: &str, p2: bool) -> Vec<i32> {
         new_line = new_line.replace("eight", "eight8eight");
         new_line = new_line.replace("nine", "nine9nine");
     }
-    new_line.chars().filter_map(|c| c.to_digit(10)).map(|d| d as i32).collect()
+    new_line
+        .chars()
+        .filter_map(|c| c.to_digit(10))
+        .map(|d| d as i32)
+        .collect()
 }

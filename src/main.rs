@@ -1,8 +1,16 @@
-use std::time::Instant;
 use aoc23::*;
+use std::time::Instant;
 
 fn main() {
-    execute_day(1);
+    let mut input = String::new();
+    println!("Enter the day to execute:");
+    std::io::stdin().read_line(&mut input).unwrap();
+    if input.trim().is_empty() {
+        println!("No day entered, exiting");
+        return;
+    }
+    let day: u32 = input.trim().parse().unwrap();
+    execute_day(day);
 }
 
 fn execute_day(day: u32) {
