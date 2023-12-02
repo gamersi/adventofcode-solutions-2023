@@ -1,2 +1,2 @@
 # AdventOfCode Solutions 2023
-I am uploading my solutions to the AdventOfCode 2023 puzzles here. I am using Rust Edition 2021. I am trying to use no external crates, but I am using the standard library.
+I am currently submitting my solutions to the AdventOfCode 2023 puzzles at this juncture. Employing Rust Edition 2021, I endeavor to abstain from integrating external crates while relying exclusively on the standard library.
