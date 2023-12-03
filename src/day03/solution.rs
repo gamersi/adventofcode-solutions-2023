@@ -67,7 +67,7 @@ pub fn part2() {
     for i in 0..grid.len() {
         for j in 0..grid[i].len() {
             if grid[i][j] == "*" { // search for gears
-                let mut nums: Vec<i16> = Vec::new();
+                let mut nums: Vec<i32> = Vec::new();
                 for k in i-1..i+2 {
                     for l in j-1..j+2 {
                         if k >= 0 && k < grid.len() && l >= 0 && l < grid[k].len() {
@@ -89,7 +89,7 @@ pub fn part2() {
                                     used[k][m as usize] = true;
                                     m += 1;
                                 }
-                                nums.push(num.parse::<i16>().unwrap());
+                                nums.push(num.parse::<i32>().unwrap());
                             }
                         }
                     }
