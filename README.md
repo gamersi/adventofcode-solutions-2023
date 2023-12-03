@@ -28,6 +28,7 @@ Here's my progress for the Advent of Code 2023:
 
 - [x] Day 1: [Trebuchet?!](https://adventofcode.com/2023/day/1)
 - [x] Day 2: [Cube Conundrum](https://adventofcode.com/2023/day/2)
+- [x] Day 3: [Gear Ratios](https://adventofcode.com/2023/day/3)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
