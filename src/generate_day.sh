@@ -42,7 +42,6 @@ mkdir -p "day$day"
 
 touch "day$day/input.txt"
 touch "day$day/example.txt"
-touch "day$day/example2.txt"
 
 touch "day$day/solution.rs"
 echo "const INPUT: &str = include_str!(\"input.txt\");" >> "day$day/solution.rs"
