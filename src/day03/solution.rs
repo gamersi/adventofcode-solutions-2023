@@ -12,15 +12,15 @@ pub fn part1() {
             grid[i][j] = c.to_string();
         }
     }
-    
+
     let mut sum = 0;
     for i in 0..grid.len() {
         for j in 0..grid[i].len() {
             if grid[i][j] != "." && !str_is_digit(grid[i][j].as_str()) {
                 // check if the surrounding positions are digits
-                for k in i-1..i+2 {
-                    for l in j-1..j+2 {
-                        if k >= 0 && k < grid.len() && l >= 0 && l < grid[k].len() {
+                for k in i - 1..i + 2 {
+                    for l in j - 1..j + 2 {
+                        if k < grid.len() && l < grid[k].len() {
                             if str_is_digit(grid[k][l].as_str()) && !used[k][l] {
                                 let mut num: String = grid[k][l].to_string();
                                 used[k][l] = true;
@@ -33,7 +33,9 @@ pub fn part1() {
                                     m -= 1;
                                 }
                                 m = l as i32 + 1;
-                                while m < grid.len() as i32 && str_is_digit(grid[k][m as usize].as_str()) {
+                                while m < grid.len() as i32
+                                    && str_is_digit(grid[k][m as usize].as_str())
+                                {
                                     // append the number when its after it
                                     num = num + &grid[k][m as usize].to_string();
                                     used[k][m as usize] = true;
@@ -62,15 +64,16 @@ pub fn part2() {
             grid[i][j] = c.to_string();
         }
     }
-    
+
     let mut sum = 0;
     for i in 0..grid.len() {
         for j in 0..grid[i].len() {
-            if grid[i][j] == "*" { // search for gears
+            if grid[i][j] == "*" {
+                // search for gears
                 let mut nums: Vec<i32> = Vec::new();
-                for k in i-1..i+2 {
-                    for l in j-1..j+2 {
-                        if k >= 0 && k < grid.len() && l >= 0 && l < grid[k].len() {
+                for k in i - 1..i + 2 {
+                    for l in j - 1..j + 2 {
+                        if k < grid.len() && l < grid[k].len() {
                             if str_is_digit(grid[k][l].as_str()) && !used[k][l] {
                                 let mut num: String = grid[k][l].to_string();
                                 used[k][l] = true;
@@ -83,7 +86,9 @@ pub fn part2() {
                                     m -= 1;
                                 }
                                 m = l as i32 + 1;
-                                while m < grid.len() as i32 && str_is_digit(grid[k][m as usize].as_str()) {
+                                while m < grid.len() as i32
+                                    && str_is_digit(grid[k][m as usize].as_str())
+                                {
                                     // append the number when its after it
                                     num = num + &grid[k][m as usize].to_string();
                                     used[k][m as usize] = true;
