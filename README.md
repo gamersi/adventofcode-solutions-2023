@@ -30,6 +30,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 2: [Cube Conundrum](https://adventofcode.com/2023/day/2)
 - [x] Day 3: [Gear Ratios](https://adventofcode.com/2023/day/3)
 - [x] Day 4: [Scratchcards](https://adventofcode.com/2023/day/4)
+- [x] Day 5: [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
