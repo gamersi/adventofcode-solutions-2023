@@ -1,4 +1,4 @@
-# /bin/bash generate_day.sh
+#!/bin/bash
 # Description: Generate a new day folder with the template files
 
 if [ ${PWD##*/} != "src" ]; then
@@ -13,57 +13,57 @@ fi
 
 read -p "Enter the day number: " day
 
-if [ $day -lt 10 ]; then
-    day="0$day"
+formattedDay=$(printf "%02d" $day)
+day=$(echo $day | sed 's/^0*//')  # Remove leading zeros
+
+if [ -z "$day" ]; then
+    echo "Invalid day number"
+    exit 1
 fi
 
 if [ -d "day$day" ]; then
-    echo "Day $day already exists"
+    echo "Day $formattedDay already exists"
     exit 1
 elif [ $day -gt 25 ]; then
-    echo "Day $day is too high"
+    echo "Day $formattedDay is too high"
     exit 1
 elif [ $day -lt 1 ]; then
-    echo "Day $day is too low"
+    echo "Day $formattedDay is too low"
     exit 1
 else
-    echo "Creating day$day"
+    echo "Creating day$formattedDay"
 fi
 
 prevDay=$((day-1))
 dayNum=$((day))
-formattedPrevDay=0
+formattedPrevDay=$(printf "%02d" $prevDay)  # Add leading zeros if needed
 
-if [ $prevDay -lt 10 ]; then
-    formattedPrevDay="0$prevDay"
-fi
+mkdir -p "day$formattedDay"
 
-mkdir -p "day$day"
+touch "day$formattedDay/input.txt"
+touch "day$formattedDay/example.txt"
 
-touch "day$day/input.txt"
-touch "day$day/example.txt"
+touch "day$formattedDay/solution.rs"
+echo "const INPUT: &str = include_str!(\"input.txt\");" >> "day$formattedDay/solution.rs"
+echo "pub fn part1() {" >> "day$formattedDay/solution.rs"
+echo "}" >> "day$formattedDay/solution.rs"
+echo "pub fn part2() {" >> "day$formattedDay/solution.rs"
+echo "}" >> "day$formattedDay/solution.rs"
 
-touch "day$day/solution.rs"
-echo "const INPUT: &str = include_str!(\"input.txt\");" >> "day$day/solution.rs"
-echo "pub fn part1() {" >> "day$day/solution.rs"
-echo "}" >> "day$day/solution.rs"
-echo "pub fn part2() {" >> "day$day/solution.rs"
-echo "}" >> "day$day/solution.rs"
+touch "day$formattedDay/mod.rs"
+echo "pub mod solution;" >> "day$formattedDay/mod.rs"
 
-touch "day$day/mod.rs"
-echo "pub mod solution;" >> "day$day/mod.rs"
-
-echo "pub mod day$day;" >> "lib.rs"
+echo "pub mod day$formattedDay;" >> "lib.rs"
 
 echo "" >> "main.rs"
 echo "" >> "main.rs"
-echo "fn day$day() {" >> "main.rs"
-echo "    day$day::solution::part1();" >> "main.rs"
-echo "    day$day::solution::part2();" >> "main.rs"
+echo "fn day$formattedDay() {" >> "main.rs"
+echo "    day$formattedDay::solution::part1();" >> "main.rs"
+echo "    day$formattedDay::solution::part2();" >> "main.rs"
 echo "}" >> "main.rs"
 
 # add the day to the match statement (black magic)
-sed -i "/$prevDay => day$formattedPrevDay(),/a \ \ \ \ \ \ \ \ $dayNum => day$day()," "main.rs"
+sed -i "/$prevDay => day$formattedPrevDay(),/a \ \ \ \ \ \ \ \ $dayNum => day$formattedDay()," "main.rs"
 
-echo "Day $day created successfully"
+echo "Day $formattedDay created successfully"
 cargo fmt
