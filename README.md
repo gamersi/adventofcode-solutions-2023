@@ -33,6 +33,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 5: [If You Give A Seed A Fertilizer](https://adventofcode.com/2023/day/5)
 - [x] Day 6: [Wait For It](https://adventofcode.com/2023/day/6)
 - [x] Day 7: [Camel Cards](https://adventofcode.com/2023/day/7)
+- [x] Day 8: [Haunted Wasteland](https://adventofcode.com/2023/day/8)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
