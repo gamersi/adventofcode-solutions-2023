@@ -1,24 +1,28 @@
+use std::collections::HashMap;
+
 use regex::Regex;
 
 #[derive(Debug, Clone)] // Debug is needed for the println! macro and Clone for the .clone() method
 struct Node {
-    name: String,
+    identifier: String,
     left: String,
     right: String,
+    left_index: usize,
+    right_index: usize,
 }
 
 const INPUT: &str = include_str!("input.txt");
 
 pub fn part1() {
-    let (instructions, network, _) = parse_input();
+    let (instructions, network, _, start_index) = parse_input();
 
-    let steps = get_steps_to_node(network, "AAA".to_string(), instructions.clone(), false);
+    let steps = get_steps_to_node(network, start_index, instructions.clone(), false);
 
     println!("Part 1: {}", steps);
 }
 
 pub fn part2() {
-    let (instructions, network, start_nodes) = parse_input();
+    let (instructions, network, start_nodes, _) = parse_input();
 
     let mut steps: Vec<u64> = Vec::new();
 
@@ -34,10 +38,12 @@ pub fn part2() {
     println!("Part 2: {}", lcm_of_vec(steps));
 }
 
-fn parse_input() -> (Vec<String>, Vec<Node>, Vec<String>) {
+fn parse_input() -> (Vec<String>, Vec<Node>, Vec<usize>, usize) {
+    let mut indices: HashMap<&str, usize> = HashMap::new();
     let mut instructions: Vec<String> = Vec::new();
     let mut network: Vec<Node> = Vec::new();
-    let mut start_nodes: Vec<String> = Vec::new();
+    let mut start_nodes: Vec<usize> = Vec::new();
+    let mut start_index: usize = 0;
 
     let parenthesisre = Regex::new(r"([A-Z0-9]{3}) = \(([A-Z0-9]{3}), ([A-Z0-9]{3})\)").unwrap();
 
@@ -50,49 +56,53 @@ fn parse_input() -> (Vec<String>, Vec<Node>, Vec<String>) {
                 .collect();
         } else if !line.is_empty() {
             let caps = parenthesisre.captures(line).unwrap();
-            let name = caps.get(1).unwrap().as_str().to_string();
+            let identifier = &caps.get(1).unwrap().as_str();
             let left = caps.get(2).unwrap().as_str().to_string();
             let right = caps.get(3).unwrap().as_str().to_string();
-            if &name.ends_with("A") == &true {
-                start_nodes.push(name.clone());
+            if identifier.ends_with("A") == true {
+                start_nodes.push(i - 2);
             }
-            network.push(Node { name, left, right });
+            indices.insert(identifier, i - 2);
+            network.push(Node { identifier: identifier.to_string(), left, right, left_index: 0, right_index: 0 });
+            if identifier == &"AAA" {
+                start_index = i - 2;
+            }
         }
     }
 
-    return (instructions, network, start_nodes);
+    for node in network.iter_mut() {
+        node.left_index = *indices.get(node.left.as_str()).unwrap();
+        node.right_index = *indices.get(node.right.as_str()).unwrap();
+    }
+
+    return (instructions, network, start_nodes, start_index);
 }
 
 fn get_steps_to_node(
     network: Vec<Node>,
-    start: String,
+    start: usize,
     instructions: Vec<String>,
     part2: bool,
 ) -> u64 {
     let mut steps = 0;
-    let mut current_node: String = start;
-
-    loop {
-        for (_, nav) in instructions.iter().enumerate() {
-            steps += 1;
-            let node = network
-                .iter()
-                .find(|&n| n.name == current_node)
-                .unwrap()
-                .clone();
-            if nav == "R" {
-                current_node = node.right;
-            } else {
-                current_node = node.left;
-            }
-            if current_node == "ZZZ" && !part2 {
-                return steps;
-            }
-            if current_node.ends_with("Z") && part2 {
-                return steps;
-            }
+    let mut current_node: usize = start;
+    for (_, nav) in instructions.iter().cycle().enumerate() {
+        steps += 1;
+        let mut node = &network[current_node];
+        if nav == "R" {
+            current_node = node.right_index;
+        } else {
+            current_node = node.left_index;
+        }
+        node = &network[current_node];
+        if node.identifier == "ZZZ" && !part2 {
+            break;
+        }
+        if node.identifier.ends_with("Z") && part2 {
+            break;
         }
     }
+    steps
 }
 
 fn lcm(a: u64, b: u64) -> u64 {
