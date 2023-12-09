@@ -63,7 +63,13 @@ fn parse_input() -> (Vec<String>, Vec<Node>, Vec<usize>, usize) {
                 start_nodes.push(i - 2);
             }
             indices.insert(identifier, i - 2);
-            network.push(Node { identifier: identifier.to_string(), left, right, left_index: 0, right_index: 0 });
+            network.push(Node {
+                identifier: identifier.to_string(),
+                left,
+                right,
+                left_index: 0,
+                right_index: 0,
+            });
             if identifier == &"AAA" {
                 start_index = i - 2;
             }
