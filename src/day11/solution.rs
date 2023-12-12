@@ -16,12 +16,12 @@ pub fn part1() {
         }
     }
 
-    // for i in 0..galaxies.len() {
-    //     for j in i + 1..galaxies.len() {
-    //         let dist = find_path(&expanded_map, galaxies[j], galaxies[i]);
-    //         sum += dist;
-    //     }
-    // }
+    for i in 0..galaxies.len() {
+        for j in i + 1..galaxies.len() {
+            let dist = find_path(&expanded_map, galaxies[j], galaxies[i]);
+            sum += dist;
+        }
+    }
 
     println!("Part 1: {}", sum)
 }
@@ -39,7 +39,7 @@ pub fn part2() {
         }
     }
 
-   let sum = find_path_2(&galaxies, &empty_rows, &empty_cols, 1000000);
+    let sum = find_path_2(&galaxies, &empty_rows, &empty_cols, 1000000);
 
     println!("Part 2: {}", sum)
 }
@@ -48,7 +48,7 @@ fn expand_map(map: Vec<Vec<char>>) -> Vec<Vec<char>> {
     let mut new_map: Vec<Vec<char>> = map.clone();
     let (empty_rows, empty_cols) = find_empty_rows_cols(&map);
 
-    for &i in empty_rows.iter().rev() { // reverse so that indices don't change
+    for &i in empty_rows.iter().rev() {
         new_map.insert(i, vec!['.'; map[0].len()]);
     }
 
@@ -107,7 +107,12 @@ fn find_path(map: &Vec<Vec<char>>, start: (usize, usize), target: (usize, usize)
     0
 }
 
-fn find_path_2(galaxies: &Vec<(usize, usize)>, empty_rows: &Vec<usize>, empty_cols: &Vec<usize>, expansion: usize) -> usize {
+fn find_path_2(
+    galaxies: &Vec<(usize, usize)>,
+    empty_rows: &Vec<usize>,
+    empty_cols: &Vec<usize>,
+    expansion: usize,
+) -> usize {
     let mut sum = 0;
     let num_galaxies = galaxies.len();
 
@@ -115,10 +120,17 @@ fn find_path_2(galaxies: &Vec<(usize, usize)>, empty_rows: &Vec<usize>, empty_co
         for j in i + 1..num_galaxies {
             let galaxy1 = galaxies[i];
             let galaxy2 = galaxies[j];
-            let mut dist = (galaxy1.1 as isize - galaxy2.1 as isize).abs() as usize + (galaxy1.0 as isize - galaxy2.0 as isize).abs() as usize;
-            let empty_row_dist = empty_rows.iter().filter(|&&r| is_in_between(r, galaxy1.1, galaxy2.1)).count();
-            let empty_col_dist = empty_cols.iter().filter(|&&c| is_in_between(c, galaxy1.0, galaxy2.0)).count();
-            dist += (expansion-1)*empty_row_dist + (expansion-1)*empty_col_dist;
+            let mut dist = (galaxy1.1 as isize - galaxy2.1 as isize).abs() as usize
+                + (galaxy1.0 as isize - galaxy2.0 as isize).abs() as usize;
+            let empty_row_dist = empty_rows
+                .iter()
+                .filter(|&&r| is_in_between(r, galaxy1.1, galaxy2.1))
+                .count();
+            let empty_col_dist = empty_cols
+                .iter()
+                .filter(|&&c| is_in_between(c, galaxy1.0, galaxy2.0))
+                .count();
+            dist += (expansion - 1) * empty_row_dist + (expansion - 1) * empty_col_dist;
             sum += dist;
         }
     }
