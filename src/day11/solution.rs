@@ -1,133 +1,132 @@
 use std::collections::VecDeque;
 
-const INPUT: &str = include_str!("example.txt");
-
-#[derive(Debug, Clone)]
-struct Spot {
-    x: usize,
-    y: usize,
-    visited: bool,
-    galaxy: bool
-}
+const INPUT: &str = include_str!("input.txt");
 
 pub fn part1() {
     let mut sum = 0;
-    let mut map: Vec<Vec<Spot>> = Vec::new();
-    let mut num_galaxies = 0;
-    for (i, line) in INPUT.lines().enumerate() {
-        let mut row = Vec::new();
-        for (j, c) in line.chars().enumerate() {
-            let mut galaxy: bool = false;
-            if c == '#' {
-                galaxy = true;
-                num_galaxies += 1;
-            } 
-            row.push(Spot {
-                x: j,
-                y: i,
-                visited: false,
-                galaxy
-            });
+    let map = INPUT.lines().map(|l| l.chars().collect()).collect();
+    let expanded_map = expand_map(map);
+
+    let mut galaxies: Vec<(usize, usize)> = Vec::new();
+    for (y, row) in expanded_map.iter().enumerate() {
+        for (x, c) in row.iter().enumerate() {
+            if c == &'#' {
+                galaxies.push((x, y));
+            }
         }
-        map.push(row);
     }
-    map = expand_map(map, 1);
-    print_galaxy(map.clone());
-    let start = Spot { x: 1, y: 6, visited: false, galaxy: true };
-    let target = Spot { x: 5, y: 11, visited: false, galaxy: true };
-    println!("{}", find_path(map, start, target))
+
+    // for i in 0..galaxies.len() {
+    //     for j in i + 1..galaxies.len() {
+    //         let dist = find_path(&expanded_map, galaxies[j], galaxies[i]);
+    //         sum += dist;
+    //     }
+    // }
+
+    println!("Part 1: {}", sum)
 }
 
-pub fn part2() {}
+pub fn part2() {
+    let map = INPUT.lines().map(|l| l.chars().collect()).collect();
+    let (empty_rows, empty_cols) = find_empty_rows_cols(&map);
 
-fn expand_map(map: Vec<Vec<Spot>>, expansion: u8) -> Vec<Vec<Spot>> {
-    let mut new_map: Vec<Vec<Spot>> = Vec::new();
-    for (i, row) in map.iter().enumerate() {
-        if row.iter().any(|c| c.galaxy) {
-            new_map.push(row.clone());
-        } else {
-            new_map.push(row.clone());
-            for _ in 0..expansion {
-                let mut new_row: Vec<Spot> = Vec::new();
-                for j in 0..row.len() {
-                    new_row.push(Spot { x: j, y: i, visited: false, galaxy: false })
-                }
+    let mut galaxies: Vec<(usize, usize)> = Vec::new();
+    for (y, row) in map.iter().enumerate() {
+        for (x, c) in row.iter().enumerate() {
+            if c == &'#' {
+                galaxies.push((x, y));
             }
         }
     }
-    let mut offset = 0;
-    for col in 0..map[0].len() {
-        if map.iter().all(|row| !row[col].galaxy) {
-            offset += 1;
-            for (i, row) in new_map.iter().enumerate() {
-                for _ in 0..expansion {
-                    new_map[i].insert(col+offset, Spot { x: col+offset, y: i, visited: false, galaxy: false });
-                }
-            }
+
+   let sum = find_path_2(&galaxies, &empty_rows, &empty_cols, 1000000);
+
+    println!("Part 2: {}", sum)
+}
+
+fn expand_map(map: Vec<Vec<char>>) -> Vec<Vec<char>> {
+    let mut new_map: Vec<Vec<char>> = map.clone();
+    let (empty_rows, empty_cols) = find_empty_rows_cols(&map);
+
+    for &i in empty_rows.iter().rev() { // reverse so that indices don't change
+        new_map.insert(i, vec!['.'; map[0].len()]);
+    }
+
+    for &i in empty_cols.iter().rev() {
+        for row in new_map.iter_mut() {
+            row.insert(i, '.');
         }
     }
+
     new_map
 }
 
-fn find_path(map: Vec<Vec<Spot>>, start: Spot, target: Spot) -> u32 {
-    let mut queue: VecDeque<Spot> = VecDeque::new();
-    queue.push_back(start);
-    
-    while let Some(node) = queue.pop_front() {
-        let mut record_x = usize::MAX;
-        let mut record_y = usize::MAX;
-        let mut steps: u32 = 0;
+fn find_empty_rows_cols(map: &Vec<Vec<char>>) -> (Vec<usize>, Vec<usize>) {
+    let mut empty_rows = vec![];
+    let mut empty_cols = vec![];
 
-        for i in node.y-1..=node.y+1 {
-            for j in node.x-1..=node.x+1 {
-                if i > target.y && i - target.y < record_y {
-                    record_y = i - target.y;
-                    if i == target.y && j == target.x {
-                        return steps;
-                    }
-                    steps += 1;
-                } else if i < target.y && target.y - i < record_y {
-                    record_y = target.y - i;
-                    if i == target.y && j == target.x {
-                        return steps;
-                    }
-                    steps += 1;
-                }else if j > target.x && j - target.x < record_x {
-                    record_x = i - target.x;
-                    if i == target.y && j == target.x {
-                        return steps;
-                    }
-                    steps += 1;
-                } else if j < target.x && target.x - j < record_x {
-                    record_x = target.x - j;
-                    if i == target.y && j == target.x {
-                        return steps;
-                    }
-                    steps += 1;
-                } else {
-                    panic!("That should not happen.")
+    for i in 0..map.len() {
+        if map[i].iter().all(|c| c != &'#') {
+            empty_rows.push(i);
+        }
+    }
+
+    for i in 0..map[0].len() {
+        if map.iter().all(|row| row[i] != '#') {
+            empty_cols.push(i);
+        }
+    }
+
+    (empty_rows, empty_cols)
+}
+
+fn find_path(map: &Vec<Vec<char>>, start: (usize, usize), target: (usize, usize)) -> u32 {
+    let mut visited: Vec<Vec<bool>> = vec![vec![false; map[0].len()]; map.len()];
+    let mut queue: VecDeque<((usize, usize), u32)> = VecDeque::new();
+    queue.push_back((start, 0));
+    visited[start.1][start.0] = true;
+
+    while let Some((node, steps)) = queue.pop_front() {
+        if node.0 == target.0 && node.1 == target.1 {
+            return steps;
+        }
+
+        for (i, j) in vec![(0, 1), (0, -1), (1, 0), (-1, 0)] {
+            let new_x = node.0 as i32 + i;
+            let new_y = node.1 as i32 + j;
+            if new_x >= 0 && new_y >= 0 && new_x < map[0].len() as i32 && new_y < map.len() as i32 {
+                let x = new_x as usize;
+                let y = new_y as usize;
+                if !visited[y][x] {
+                    visited[y][x] = true;
+                    queue.push_back(((x, y), steps + 1));
                 }
-                queue.push_back(Spot {
-                    x: target.x - record_x,
-                    y: target.y - record_y,
-                    galaxy: map[target.x - record_x][target.y - record_y].galaxy,
-                    visited: map[target.x - record_x][target.y - record_y].visited,
-                })
             }
         }
-    };
+    }
     0
 }
 
-fn print_galaxy(map: Vec<Vec<Spot>>) {
-    for row in map {
-        for s in row {
-            if s.galaxy {
-                print!("#");
-            } else {
-                print!(".");
-            }
+fn find_path_2(galaxies: &Vec<(usize, usize)>, empty_rows: &Vec<usize>, empty_cols: &Vec<usize>, expansion: usize) -> usize {
+    let mut sum = 0;
+    let num_galaxies = galaxies.len();
+
+    for i in 0..num_galaxies {
+        for j in i + 1..num_galaxies {
+            let galaxy1 = galaxies[i];
+            let galaxy2 = galaxies[j];
+            let mut dist = (galaxy1.1 as isize - galaxy2.1 as isize).abs() as usize + (galaxy1.0 as isize - galaxy2.0 as isize).abs() as usize;
+            let empty_row_dist = empty_rows.iter().filter(|&&r| is_in_between(r, galaxy1.1, galaxy2.1)).count();
+            let empty_col_dist = empty_cols.iter().filter(|&&c| is_in_between(c, galaxy1.0, galaxy2.0)).count();
+            dist += (expansion-1)*empty_row_dist + (expansion-1)*empty_col_dist;
+            sum += dist;
         }
-        println!();
     }
+    sum
+}
+
+fn is_in_between(value: usize, bound1: usize, bound2: usize) -> bool {
+    let min_bound = bound1.min(bound2);
+    let max_bound = bound1.max(bound2);
+    value > min_bound && value < max_bound
 }

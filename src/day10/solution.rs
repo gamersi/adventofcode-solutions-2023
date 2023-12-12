@@ -1,7 +1,4 @@
-use std::{
-    collections::VecDeque,
-    // fmt::{Display, Formatter},
-};
+use std::collections::VecDeque;
 
 const INPUT: &str = include_str!("input.txt");
 
