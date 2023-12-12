@@ -37,6 +37,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 9: [Mirage Maintenance](https://adventofcode.com/2023/day/9)
 - [x] Day 10: [Pipe Maze](https://adventofcode.com/2023/day/10)
 - [x] Day 11: [Cosmic Expansion](https://adventofcode.com/2023/day/11)
+- [x] Day 12: [Hot Springs](https://adventofcode.com/2023/day/12)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
