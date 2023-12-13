@@ -1,4 +1,4 @@
-# Advent of Code 2023 Solutions by gamersi
+# Advent of Code 2023 Solutions
 
 This repository contains my solutions for the [Advent of Code 2023](https://adventofcode.com/2023) challenges. Advent of Code is an annual set of Christmas-themed programming puzzles that cover a variety of topics and difficulty levels.
 I am using Rust to solve the puzzles and I am trying to solve them with the standard library and with as few dependencies as possible(only `regex` for now)
@@ -19,8 +19,7 @@ The solutions are written in Rust and can be run using the standard Rust toolcha
 
 ```bash
 cargo run # for debug builds
-or
-cargo run --release # for optimized builds
+cargo run -r # for optimized builds
 ```
 
 ## Progress
@@ -38,6 +37,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 10: [Pipe Maze](https://adventofcode.com/2023/day/10)
 - [x] Day 11: [Cosmic Expansion](https://adventofcode.com/2023/day/11)
 - [x] Day 12: [Hot Springs](https://adventofcode.com/2023/day/12)
+- [x] Day 13: [Point of Incidence](https://adventofcode.com/2023/day/13)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.

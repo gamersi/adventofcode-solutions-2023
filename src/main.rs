@@ -28,6 +28,7 @@ fn execute_day(day: u32) {
         10 => day10(),
         11 => day11(),
         12 => day12(),
+        13 => day13(),
         _ => println!("Day {} not implemented yet", day),
     }
     println!("Time: {}ms", time.elapsed().as_millis());
@@ -91,4 +92,9 @@ fn day11() {
 fn day12() {
     day12::solution::part1();
     day12::solution::part2();
+}
+
+fn day13() {
+    day13::solution::part1();
+    day13::solution::part2();
 }
