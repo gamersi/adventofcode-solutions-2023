@@ -1,4 +1,4 @@
-const INPUT: &str = include_str!("input.txt"); // example, expected: 405
+const INPUT: &str = include_str!("input.txt");
 
 #[derive(Debug)]
 struct Mirror {
@@ -31,17 +31,26 @@ impl Mirror {
                 _ => unreachable!(),
             }
         }
-        Mirror { rows, cols: columns }
+        Mirror {
+            rows,
+            cols: columns,
+        }
     }
 }
 
 pub fn part1() {
-    let sum: usize = INPUT.split("\n\n").map(|mirror| solve(&Mirror::parse(mirror), false)).sum();
+    let sum: usize = INPUT
+        .split("\n\n")
+        .map(|mirror| solve(&Mirror::parse(mirror), false))
+        .sum();
     println!("Part 1: {}", sum);
 }
 
 pub fn part2() {
-    let sum: usize = INPUT.split("\n\n").map(|mirror| solve(&Mirror::parse(mirror), true)).sum();
+    let sum: usize = INPUT
+        .split("\n\n")
+        .map(|mirror| solve(&Mirror::parse(mirror), true))
+        .sum();
     println!("Part 2: {}", sum);
 }
 
