@@ -48,7 +48,7 @@ fn hashmap<'a>(input: &'a str, hash_map: &mut HashMap<usize, Vec<(&'a str, usize
     let mut current_value = hash_map.entry(key).or_insert(Vec::new());
     if operation == 0 {
         current_value.retain(|&x| x.0 != label);
-    } else if operation > 0 &&  operation < 10{
+    } else if operation > 0 && operation < 10 {
         if !current_value.iter().any(|(x, _)| x == &label) {
             current_value.push((label, operation));
         } else {
@@ -66,7 +66,6 @@ fn focusing_power(hash_map: &HashMap<usize, Vec<(&str, usize)>>) -> usize {
     let mut sum: usize = 0;
     for (key, value) in hash_map {
         if !value.is_empty() {
-            println!("{:?} {}", value, value.len());
             value.iter().enumerate().for_each(|(i, (_, operation))| {
                 sum += (key + 1) * (i + 1) * operation;
             });
