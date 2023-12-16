@@ -45,7 +45,7 @@ fn hashmap<'a>(input: &'a str, hash_map: &mut HashMap<usize, Vec<(&'a str, usize
         operation = split.next().unwrap().parse::<usize>().unwrap();
     }
     let key = hash(label);
-    let mut current_value = hash_map.entry(key).or_insert(Vec::new());
+    let current_value = hash_map.entry(key).or_insert(Vec::new());
     if operation == 0 {
         current_value.retain(|&x| x.0 != label);
     } else if operation > 0 && operation < 10 {

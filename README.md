@@ -40,6 +40,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 13: [Point of Incidence](https://adventofcode.com/2023/day/13)
 - [x] Day 14: [Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)
 - [x] Day 15: [Lens Library](https://adventofcode.com/2023/day/15)
+- [x] Day 16: [The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
