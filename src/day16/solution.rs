@@ -7,15 +7,12 @@ type Point = (usize, usize, char); // (x, y, direction)
 pub fn part1() {
     let map: Vec<Vec<char>> = INPUT.lines().map(|line| line.chars().collect()).collect();
     let start_beam: Point = (0, 0, 'R');
-    
+
     let mut cache = HashSet::new();
     let mut visited = vec![vec![0; map[0].len()]; map.len()];
 
     walk_map(&map, start_beam, &mut visited, &mut cache);
-    let sum: i32 = visited
-        .iter()
-        .flatten()
-        .sum();
+    let sum: i32 = visited.iter().flatten().sum();
     println!("Part 1: {}", sum);
 }
 
@@ -24,17 +21,11 @@ pub fn part2() {
 
     let configurations = find_configurations(&map);
 
-    let max: i32 = configurations
-        .iter()
-        .max()
-        .unwrap()
-        .clone();
+    let max: i32 = configurations.iter().max().unwrap().clone();
     println!("Part 2: {}", max);
 }
 
-fn find_configurations(
-    map: &Vec<Vec<char>>
-) -> Vec<i32> {
+fn find_configurations(map: &Vec<Vec<char>>) -> Vec<i32> {
     let mut configurations = vec![];
 
     let width = map[0].len();
@@ -58,10 +49,7 @@ fn find_configurations(
                 let mut cache = HashSet::new();
                 let mut visited = vec![vec![0; map[0].len()]; map.len()];
                 walk_map(map, movement, &mut visited, &mut cache);
-                let sum: i32 = visited
-                    .iter()
-                    .flatten()
-                    .sum();
+                let sum: i32 = visited.iter().flatten().sum();
                 configurations.push(sum);
             }
         }
@@ -123,4 +111,3 @@ fn walk_map(
         _ => unreachable!(),
     }
 }
-
