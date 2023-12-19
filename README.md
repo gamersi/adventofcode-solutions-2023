@@ -43,6 +43,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 16: [The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
 - [x] Day 17: [Clumsy Crucible](https://adventofcode.com/2023/day/17)
 - [x] Day 18: [Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
+- [x] Day 19: [Aplenty](https://adventofcode.com/2023/day/19)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
