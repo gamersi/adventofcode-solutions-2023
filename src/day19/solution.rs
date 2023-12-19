@@ -139,20 +139,9 @@ pub fn part2() {
     let parts: Vec<&str> = INPUT.split("\n\n").collect();
     let workflows: HashMap<String, Workflow> = Workflow::parse_workflows(parts[0]);
     // lets use BFS because "bruteforce" would take way too long. If we bruteforce we dont need to fix the snow as it will melt by the heat of my PC lol
-    let mut queue: Vec<(
-        String,
-        (i32, i32),
-        (i32, i32),
-        (i32, i32),
-        (i32, i32),
-    )> = Vec::new();
-    let mut visited: HashSet<(
-        String,
-        (i32, i32),
-        (i32, i32),
-        (i32, i32),
-        (i32, i32),
-    )> = HashSet::new();
+    let mut queue: Vec<(String, (i32, i32), (i32, i32), (i32, i32), (i32, i32))> = Vec::new();
+    let mut visited: HashSet<(String, (i32, i32), (i32, i32), (i32, i32), (i32, i32))> =
+        HashSet::new();
     let mut count: u128 = 0; // i used u128 just to be sure we dont overflow
     queue.push(("in".to_string(), (1, 4000), (1, 4000), (1, 4000), (1, 4000)));
     while let Some((name, x_range, m_range, a_range, s_range)) = queue.pop() {
@@ -166,7 +155,7 @@ pub fn part2() {
                 * (s_range.1 - s_range.0 + 1) as u128;
             continue;
         }
-        
+
         if name == "R" {
             continue;
         }
