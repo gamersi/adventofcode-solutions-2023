@@ -45,6 +45,7 @@ Here's my progress for the Advent of Code 2023:
 - [x] Day 18: [Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
 - [x] Day 19: [Aplenty](https://adventofcode.com/2023/day/19)
 - [x] Day 20: [Pulse Propagation](https://adventofcode.com/2023/day/20)
+- [x] Day 21: [Step Counter](https://adventofcode.com/2023/day/21)
 
 ## Acknowledgments
 Thanks to the creators of Advent of Code for organizing this fun and educational event each year.
